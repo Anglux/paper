@@ -1,13 +1,15 @@
 <template>
   <div class="homeBody">
     <div class="card">
-      <div class="cardHeder">
-        <span>降重模式</span>
+      <div class="hederSelect">
+        <strong>降重模式：</strong>
+        <span :class="{'currentSelect':selectIndex == index}" v-for="(item,index) in selectArr" :key="index" @click="updateCurrent(index)">{{ item.title }}</span>
       </div>
       <div class="rowBox">
         <div class="row">
           <label for="">请输入需要降重的文字</label>
-          <textarea placeholder=""></textarea>
+          <textarea maxlength="4000" v-model="count" placeholder=""></textarea>
+          <span>{{ count.length }}/4000字</span>
         </div>
         <div class="row">
           <label for="">智能降重处理结果</label>
@@ -15,7 +17,7 @@
         </div>
       </div>
       <div class="rowButton">
-        <button>重置</button>
+        <button @click="onReset">重置</button>
         <button>一键智能降重</button>
       </div>
     </div>
@@ -39,45 +41,43 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, reactive, ref } from 'vue';
 
 export default defineComponent({
   name: 'App',
-  // 需求：显示用户的相关信息，点击按钮，可以更新用户的相关信息数据
-  /* 
-  reactive: 
-      作用: 定义多个数据的响应式
-      const proxy = reactive(obj): 接收一个普通对象然后返回该普通对象的响应式代理器对象
-      响应式转换是“深层的”：会影响对象内部所有嵌套的属性
-      内部基于 ES6 的 Proxy 实现，通过代理对象操作源对象内部数据都是响应式的
-  */
   setup(){
-    // 把数据变成响应式的数据
-    const user = reactive({
-      name:'小明',
-      age:20,
-      wife:{
-        name:'小小',
-        age:18,
-        cars:['奔驰','法拉利']
-      }
-    })
-    console.log('user :>> ', user);
+    const count = ref('')
+    const selectArr = reactive([{
+      title:'V1智能降重',
+      id:1
+    },{
+      title:'V2超级降重',
+      id:2
+    },{
+      title:'V3通顺降重',
+      id:3
+    },{
+      title:'英文专用降重',
+      id:4
+    }])
+    const selectIndex = ref(0)
     // 方法
-    // function updateUser() {}
-    const updateUser = () => {
-      const nameArr = ['小张','小李','小朱','小乔','小小']
-      const nameRomder = Math.floor(Math.random() * nameArr.length)
-      user.wife.name = nameArr[nameRomder]
-      // user.name = '小阳'
-      // user.name += '=='
-      // user.age += 2
-      // user.wife.name += '++'
-      // user.wife.cars[0] = 'VOLVO'
+    const updateCount = () => {
+      console.log(count.value.length);
+    }
+    const onReset = () => {
+      count.value = ''
+    }
+    const updateCurrent = (e: any) => {
+      selectIndex.value = e
     }
     return{
-      user,
-      updateUser
+      count,
+      selectArr,
+      selectIndex,
+      onReset,
+      updateCount,
+      updateCurrent
     }
   }
 });
@@ -111,6 +111,30 @@ export default defineComponent({
       border-radius: 2px 2px 0 0;
       font-size: 14px;
     }
+    .hederSelect{
+      height: 42px;
+      line-height: 42px;
+      padding: 0 15px;
+      border-bottom: 1px solid #f6f6f6;
+      color: #333;
+      border-radius: 2px 2px 0 0;
+      font-size: 14px;
+      span{
+        cursor: pointer;
+        color: #333;
+        border: 1px solid transparent;
+        border-color: #d2d2d2;
+        margin: 0 10px;
+        padding: 5px 10px;
+        box-sizing: border-box;
+        border-radius: 4px;
+        font-size: 12px;
+      }
+      .currentSelect{
+        border-color: #1E9FFF;
+        color: #1E9FFF;
+      }
+    }
     .cardBody{
       padding: 10px 15px;
       line-height: 24px;
@@ -128,7 +152,7 @@ export default defineComponent({
           background-color: #fff;
           color: #333;
           border: 1px solid transparent;
-          border-color: #d2d2d2
+          border-color: #d2d2d2;
         }
         height: 38px;
         line-height: 38px;
@@ -157,6 +181,11 @@ export default defineComponent({
       .row{
         flex:1;
         margin:0 10px;
+        span{
+          display: block;
+          text-align: right;
+          margin-top: 5px;
+        }
         label{
           display: block;
           float: none;
@@ -178,7 +207,7 @@ export default defineComponent({
         }
         textarea{
           width: 100%;
-          min-height: 100px;
+          min-height: 200px;
           border-radius: 0 0 2px 2px;
           font-size: 14px;
           padding: 10px;
