@@ -41,7 +41,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue';
+import { axiosGet, axiosDelete } from "../services/api";
+import { defineComponent, reactive, ref, onMounted } from 'vue';
 
 export default defineComponent({
   name: 'App',
@@ -71,6 +72,11 @@ export default defineComponent({
     const updateCurrent = (e: any) => {
       selectIndex.value = e
     }
+
+    onMounted(async ()=>{
+      const res = await axiosGet(`api/comment/1`);
+      console.log(res);
+    })
     return{
       count,
       selectArr,
@@ -207,7 +213,7 @@ export default defineComponent({
         }
         textarea{
           width: 100%;
-          min-height: 200px;
+          min-height: 260px;
           border-radius: 0 0 2px 2px;
           font-size: 14px;
           padding: 10px;
