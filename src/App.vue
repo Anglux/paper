@@ -1,6 +1,14 @@
 <template>
   <div class="homeBody">
     <div class="card">
+      <div class="cardHeder">
+        <span>使用须知</span>
+      </div>
+      <div class="cardBody">
+        <p>声明：智能语义识别得出的结果，根据不同的（文科/理科）文章类型，得出效果不一致。如今没有万能的智能AI（AI语言技术没有达到100%要求水平），用户使用前有免费使用次数，充值使用后不接受任何退款和售后服务要求，本系统仅供协助您完成原创文章。</p>
+      </div>
+    </div>
+    <div class="card">
       <div class="hederSelect">
         <strong>降重模式：</strong>
         <span :class="{'currentSelect':selectIndex == index}" v-for="(item,index) in selectArr" :key="index" @click="updateCurrent(index)">{{ item.title }}</span>
@@ -77,6 +85,7 @@ export default defineComponent({
       const res = await axiosGet(`api/comment/1`);
       console.log(res);
     })
+
     return{
       count,
       selectArr,
