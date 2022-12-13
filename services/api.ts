@@ -1,30 +1,54 @@
-import { axiosInstance } from ".";
+// 导出常用函数
+import { instance } from ".";
 
-const axiosGet = (url: string) => {
-  return axiosInstance({
-    method: "get",
-    url,
-  });
-};
-
-const axiosPost = (url: string, data: any) => {
-  return axiosInstance({
-    method: "post",
-    url,
-    data,
-  });
-};
-
-const axiosPatch = (url: string, data: any) => {
-  return axiosInstance({
-    method: "patch",
+/**
+ * @param {string} url
+ * @param {object} data
+ * @param {object} params
+ */
+ export const post = (url: string, data = {}, params = {}) => {
+  return instance({
+    method: 'post',
     url,
     data,
+    params,
   });
-};
+}
 
-const axiosDelete = (url: string) => {
-  return axiosInstance({ method: "delete", url });
-};
+/**
+ * @param {string} url
+ * @param {object} params
+ */
+export const get = (url: string, params = {}) => {
+  return instance({
+    method: 'get',
+    url,
+    params,
+  });
+}
 
-export { axiosGet, axiosPost, axiosPatch, axiosDelete };
+/**
+ * @param {string} url
+ * @param {object} data
+ * @param {object} params
+ */
+export const put = (url: string, data = {}, params = {}) => {
+  return instance({
+    method: 'put',
+    url,
+    params,
+    data,
+  });
+}
+
+/**
+ * @param {string} url
+ * @param {object} params
+ */
+export const _delete = (url: string, params = {}) => {
+  return instance({
+    method: 'delete',
+    url,
+    params,
+  });
+}

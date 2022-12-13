@@ -1,12 +1,12 @@
 import axios from "axios";
 
 // 创建实例
-const axiosInstance = axios.create({
-  baseURL: "http://www.baidu.com",
+const instance = axios.create({
+  baseURL: "http://101.35.49.233:8080/v2/",
 });
 
 // 添加请求拦截器
-const interceptor = axiosInstance.interceptors.request.use(
+instance.interceptors.request.use(
   (config) => {
     // 在发送请求之前做些什么
     config.headers!["Authorization"] =
@@ -20,7 +20,7 @@ const interceptor = axiosInstance.interceptors.request.use(
 );
 
 // 添加响应拦截器
-axiosInstance.interceptors.response.use(
+instance.interceptors.response.use(
   (response) => {
     // 2xx 范围内的状态码都会触发该函数。
     // 对响应数据做点什么
@@ -33,4 +33,4 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-export { axiosInstance };
+export { instance };

@@ -1,7 +1,8 @@
 <template>
+  <Header></Header>
   <div class="homeBody">
     <div class="card">
-      <div class="cardHeder">
+      <div class="cardHeader">
         <span>使用须知</span>
       </div>
       <div class="cardBody">
@@ -49,11 +50,14 @@
 </template>
 
 <script lang="ts">
-import { axiosGet, axiosDelete } from "../services/api";
+import { login } from "../services/app";
 import { defineComponent, reactive, ref, onMounted } from 'vue';
-
+import Header from './components/Header.vue'
 export default defineComponent({
   name: 'App',
+  components:{  
+    Header,
+  },
   setup(){
     const count = ref('')
     const selectArr = reactive([{
@@ -74,6 +78,7 @@ export default defineComponent({
     const updateCount = () => {
       console.log(count.value.length);
     }
+
     const onReset = () => {
       count.value = ''
     }
@@ -81,8 +86,8 @@ export default defineComponent({
       selectIndex.value = e
     }
 
-    onMounted(async ()=>{
-      const res = await axiosGet(`api/comment/1`);
+    onMounted(async()=>{
+      const res = await login()
       console.log(res);
     })
 
@@ -99,6 +104,8 @@ export default defineComponent({
 </script>
 <style lang="less">
   body{
+    margin: 0;
+    padding: 0;
     width: 100%;
     height: 100%;
     background-color: #f6f8fb;
@@ -112,12 +119,12 @@ export default defineComponent({
     margin: 0;
   }
   .homeBody{
-    padding-top: 50px;
+    padding-top: 70px;
     min-width: 1000px;
     width: 1170px;
     margin: 0 auto;
     // background-color: #fff;
-    .cardHeder{
+    .cardHeader{
       height: 42px;
       line-height: 42px;
       padding: 0 15px;
