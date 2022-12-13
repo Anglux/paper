@@ -55,7 +55,7 @@ import { defineComponent, reactive, ref, onMounted } from 'vue';
 import Header from './components/Header.vue'
 export default defineComponent({
   name: 'App',
-  components:{  
+  components:{
     Header,
   },
   setup(){
@@ -87,7 +87,7 @@ export default defineComponent({
     }
 
     onMounted(async()=>{
-      const res = await login()
+      const res = await login({systemId:66})
       console.log(res);
     })
 

@@ -2,15 +2,18 @@ import axios from "axios";
 
 // 创建实例
 const instance = axios.create({
-  baseURL: "http://101.35.49.233:8080/v2/",
+  // baseURL: "http://101.35.49.233:8080/v2/",
+  baseURL: "/apis/",
+  timeout: 8000
 });
 
 // 添加请求拦截器
 instance.interceptors.request.use(
   (config) => {
     // 在发送请求之前做些什么
-    config.headers!["Authorization"] =
-      "Bearer " + localStorage.getItem("token");
+    const token = localStorage.getItem("token");
+    config.headers!["authorization"] = `Bearer ${token}`;
+
     return config;
   },
   (error) => {
