@@ -1,11 +1,27 @@
 <template>
   <div class="homeHeader">
-    <div></div>
-    <div>11</div>
+    <div class="homeHeaderBox">
+      <div></div>
+      <div class="homeHeaderInfo">
+        <div class="homeHeaderBtn">
+          <button>登录</button>
+          <button>注册</button>
+        </div>
+      </div>
+    </div>
   </div>
+  <Login></Login>
 </template>
 
 <script>
+import Login from './Login.vue'
+import { defineComponent } from 'vue';
+export default defineComponent({
+  name: 'App',
+  components:{
+    Login,
+  },
+})
 </script>
 <style lang="less">
   .homeHeader{
@@ -14,12 +30,29 @@
     top: 0;
     left: 0;
     background-color: #fff;
-    min-height: 50px;
     border-bottom: 1px solid #eaecef;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 20px;
     box-sizing: border-box;
-    align-items: center;
+    .homeHeaderBox{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0 auto;
+      max-width: 1170px;
+      min-height: 60px;
+      // padding: 0 30px;
+      // box-sizing: border-box;
+    }
+    .homeHeaderInfo{
+      .homeHeaderBtn{
+        button{
+          border: 1px solid transparent;
+          padding: 0 18px;
+          color: #000;
+          background-color: transparent;
+          font-size: 15px;
+          line-height:60px;
+        }
+      }
+    }
   }
 </style>
