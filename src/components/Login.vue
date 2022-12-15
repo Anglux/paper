@@ -1,11 +1,12 @@
 <template>
   <div class="login">
+    <div class="loginPopup" @click="$emit('isLoginFun')"></div>
     <div class="loginBox">
       <div v-if="isShow" class="loginInfo">
         <input type="text" placeholder="请输入手机号">
         <input type="text" placeholder="请输入密码">
         <button>立即登录</button>
-        <span>没有账号，立即注册></span>
+        <span @click="updateIsInfo">没有账号，立即注册></span>
       </div>
       <div v-else class="loginReg">
         <div class="loginRegTel">
@@ -15,7 +16,7 @@
         <p><input type="text" placeholder="请输入验证码"></p>
         <p><input type="text" placeholder="请输入密码"></p>
         <button>注册及登录</button>
-        <div class="loginRegNext">已有账号？<span>立即登陆</span></div>
+        <div class="loginRegNext">已有账号？<span @click="updateIsInfo">立即登陆</span></div>
       </div>
     </div>
   </div>
@@ -25,9 +26,13 @@
 import { defineComponent, ref } from 'vue';
 export default defineComponent({
   setup(){
-    const isShow = ref(true)
+    const isShow = ref(true);
+    const updateIsInfo = () => {
+      isShow.value = !isShow.value
+    }
     return {
-      isShow
+      isShow,
+      updateIsInfo
     }
   }
 })
@@ -38,10 +43,18 @@ export default defineComponent({
     height: 100%;
     width: 100%;
     background-color: rgba(0,0,0,.4);
-    z-index: 9;
     justify-content: center;
     align-items: center;
     display: flex;
+    top: 0;
+    .loginPopup{
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(0,0,0,.4);
+    }
     .loginBox{
       padding: 40px 0;
       background-color: #fff;
@@ -49,6 +62,7 @@ export default defineComponent({
       max-height: 600px;
       border-radius: 6px;
       box-sizing: border-box;
+      z-index: 9;
       .loginInfo{
         padding: 0 40px;
         box-sizing: border-box;

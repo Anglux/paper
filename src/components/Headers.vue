@@ -3,24 +3,29 @@
     <div class="homeHeaderBox">
       <div></div>
       <div class="homeHeaderInfo">
-        <div class="homeHeaderBtn">
-          <button>登录</button>
+        <div v-if="token">1</div>
+        <div v-else class="homeHeaderBtn">
+          <button @click="$emit('onLogin')">登录</button>
           <button>注册</button>
         </div>
       </div>
     </div>
   </div>
-  <Login></Login>
 </template>
 
 <script>
-import Login from './Login.vue'
 import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'App',
   components:{
-    Login,
   },
+  setup(){
+    const token = localStorage.getItem("token");
+    console.log('token :>> ', token);
+    return{
+      token
+    }
+  }
 })
 </script>
 <style lang="less">

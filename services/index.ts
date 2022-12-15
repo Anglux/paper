@@ -2,8 +2,8 @@ import axios from "axios";
 
 // 创建实例
 const instance = axios.create({
-  // baseURL: "http://101.35.49.233:8080/v2/",
-  baseURL: "/apis/",
+  // baseURL: "http://wpx.51alf.cn/",
+  baseURL: "/apis",
   timeout: 8000
 });
 
@@ -12,8 +12,9 @@ instance.interceptors.request.use(
   (config) => {
     // 在发送请求之前做些什么
     const token = localStorage.getItem("token");
-    config.headers!["authorization"] = `Bearer ${token}`;
-
+    if (token){
+      config.headers!["authorization"] = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => {
@@ -37,3 +38,4 @@ instance.interceptors.response.use(
 );
 
 export { instance };
+

@@ -1,5 +1,5 @@
 <template>
-  <Header></Header>
+  <Headers @onLogin="onLogin"></Headers>
   <div class="homeBody">
     <div class="card">
       <div class="cardHeader">
@@ -27,7 +27,7 @@
       </div>
       <div class="rowButton">
         <button @click="onReset">重置</button>
-        <button>一键智能降重</button>
+        <button @click="onLogin">一键智能降重</button>
       </div>
     </div>
     <div class="card">
@@ -47,16 +47,19 @@
         </div>
     </div>
   </div>
+  <Login v-if="isLogin" @isLoginFun="isLogin = false"></Login>
 </template>
 
 <script lang="ts">
 import { login } from "../services/app";
 import { defineComponent, reactive, ref, onMounted } from 'vue';
-import Header from './components/Header.vue'
+import Headers from './components/Headers.vue'
+import Login from './components/Login.vue'
 export default defineComponent({
   name: 'App',
   components:{
-    Header,
+    Login,
+    Headers,
   },
   setup(){
     const count = ref('')
@@ -73,6 +76,7 @@ export default defineComponent({
       title:'英文专用降重',
       id:4
     }])
+    const isLogin = ref(false)
     const selectIndex = ref(0)
     // 方法
     const updateCount = () => {
@@ -87,15 +91,21 @@ export default defineComponent({
     }
 
     onMounted(async()=>{
-      const res = await login({systemId:66})
-      console.log(res);
+      // const res = await login()
+      // console.log(res);
+    })
+
+    const onLogin = (()=>{
+      isLogin.value = !isLogin.value
     })
 
     return{
       count,
+      isLogin,
       selectArr,
       selectIndex,
       onReset,
+      onLogin,
       updateCount,
       updateCurrent
     }
