@@ -3,7 +3,10 @@
     <div class="homeHeaderBox">
       <div></div>
       <div class="homeHeaderInfo">
-        <div v-if="token">1</div>
+        <div v-if="store.userInfo.token" class="userInfo">
+          <span>{{ store.userInfo.userName }}</span>
+          <span>退出</span>
+        </div>
         <div v-else class="homeHeaderBtn">
           <button @click="$emit('onLogin')">登录</button>
           <button>注册</button>
@@ -14,16 +17,21 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted } from 'vue';
+import { userStore } from "../store/app";
 export default defineComponent({
   name: 'App',
-  components:{
-  },
+  components:{},
   setup(){
-    const token = localStorage.getItem("token");
-    console.log('token :>> ', token);
+    const store = userStore();
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    onMounted(()=>{
+      store.$patch({
+        userInfo:userInfo
+      })
+    })
     return{
-      token
+      store,
     }
   }
 })
@@ -56,6 +64,14 @@ export default defineComponent({
           background-color: transparent;
           font-size: 15px;
           line-height:60px;
+        }
+      }
+      .userInfo{
+        span{
+          &:first-child{
+            color: #1E9FFF;
+          }
+          margin-right: 20px;
         }
       }
     }

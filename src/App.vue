@@ -51,7 +51,6 @@
 </template>
 
 <script lang="ts">
-import { login } from "../services/app";
 import { defineComponent, reactive, ref, onMounted } from 'vue';
 import Headers from './components/Headers.vue'
 import Login from './components/Login.vue'
@@ -90,11 +89,6 @@ export default defineComponent({
       selectIndex.value = e
     }
 
-    onMounted(async()=>{
-      // const res = await login()
-      // console.log(res);
-    })
-
     const onLogin = (()=>{
       isLogin.value = !isLogin.value
     })
@@ -127,6 +121,9 @@ export default defineComponent({
   }
   p{
     margin: 0;
+  }
+  button{
+    outline: none;
   }
   .homeBody{
     padding-top: 70px;

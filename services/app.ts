@@ -1,7 +1,7 @@
 import { post, get } from './api'
 
 export const login = (params = {}) => {
-  return get(`/user/info`,params);
+  return post(`/user/login`,params);
 }
 
 export const signIn = (params = {}) => {
