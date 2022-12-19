@@ -3,9 +3,9 @@
     <div class="homeHeaderBox">
       <div></div>
       <div class="homeHeaderInfo">
-        <div v-if="store.userInfo.token" class="userInfo">
-          <span>{{ store.userInfo.userName }}</span>
-          <span>退出</span>
+        <div v-if="store.userInfo?.token" class="userInfo">
+          <span>{{ store.userInfo?.userName }}</span>
+          <span @click="onQuit">退出</span>
         </div>
         <div v-else class="homeHeaderBtn">
           <button @click="$emit('onLogin')">登录</button>
@@ -30,8 +30,13 @@ export default defineComponent({
         userInfo:userInfo
       })
     })
+    const onQuit = () => {
+      localStorage.removeItem('userInfo')
+      store.$reset()
+    }
     return{
       store,
+      onQuit
     }
   }
 })
@@ -68,6 +73,7 @@ export default defineComponent({
       }
       .userInfo{
         span{
+          cursor: pointer;
           &:first-child{
             color: #1E9FFF;
           }

@@ -67,16 +67,16 @@ const onRegInfo = async () => {
   if (res.code == 200){
     console.log('1 :>> ', 1);
   }else{
-    console.log('res :>> ', res.data.message);
+    console.log('res :>> ', res.message);
   }
 }
 
 const onLoginNext = async () => {
   const res = await login(loginParams)
-  if (res.data.code == 200){
-    localStorage.setItem('userInfo',JSON.stringify(res?.data?.data))
+  if (res.code == 200){
+    localStorage.setItem('userInfo',JSON.stringify(res?.data))
     store.$patch({
-      userInfo:res?.data?.data
+      userInfo:res?.data
     })
     emits('isLoginFun')
   }

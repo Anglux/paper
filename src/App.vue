@@ -12,7 +12,7 @@
     <div class="card">
       <div class="hederSelect">
         <strong>降重模式：</strong>
-        <span :class="{'currentSelect':selectIndex == index}" v-for="(item,index) in selectArr" :key="index" @click="updateCurrent(index)">{{ item.title }}</span>
+        <span :class="{'currentSelect':selectIndex == index}" v-show="!item.hidden" v-for="(item,index) in selectArr.list" :key="index" @click="updateCurrent(index)">{{ item.value }}</span>
       </div>
       <div class="rowBox">
         <div class="row">
@@ -27,7 +27,7 @@
       </div>
       <div class="rowButton">
         <button @click="onReset">重置</button>
-        <button @click="onLogin">一键智能降重</button>
+        <button @click="onSubimt">一键智能降重</button>
       </div>
     </div>
     <div class="card">
@@ -54,6 +54,8 @@
 import { defineComponent, reactive, ref, onMounted } from 'vue';
 import Headers from './components/Headers.vue'
 import Login from './components/Login.vue'
+import { userStore } from "./store/app";
+import { commonCode } from '../services/app'
 export default defineComponent({
   name: 'App',
   components:{
@@ -62,19 +64,11 @@ export default defineComponent({
   },
   setup(){
     const count = ref('')
-    const selectArr = reactive([{
-      title:'V1智能降重',
-      id:1
-    },{
-      title:'V2超级降重',
-      id:2
-    },{
-      title:'V3通顺降重',
-      id:3
-    },{
-      title:'英文专用降重',
-      id:4
-    }])
+    const store = userStore();
+    const selectArr = reactive({
+      list:[]
+    })
+
     const isLogin = ref(false)
     const selectIndex = ref(0)
     // 方法
@@ -89,8 +83,22 @@ export default defineComponent({
       selectIndex.value = e
     }
 
-    const onLogin = (()=>{
+    const onLogin = (() => {
       isLogin.value = !isLogin.value
+    })
+
+    const onSubimt = (()=>{
+      if (!store.userInfo){
+        onLogin()
+      }
+    })
+
+    onMounted(async ()=>{
+      const res: any = await commonCode('TextRewriteLevelEnum');
+      // console.log('res :>> ', res.data);
+      if (res.code == 200){
+        selectArr.list = res.data
+      }
     })
 
     return{
@@ -100,6 +108,7 @@ export default defineComponent({
       selectIndex,
       onReset,
       onLogin,
+      onSubimt,
       updateCount,
       updateCurrent
     }

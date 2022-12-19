@@ -8,7 +8,7 @@ export const signIn = (params = {}) => {
   return post(`/user/signIn`,params);
 }
 
-export const menu = (params = {}) => {
-  return post(`/user/menu/66`,params);
+export const commonCode = (name:string) => {
+  return get(`/public/common/enum/dict/${name}`);
 }
 
