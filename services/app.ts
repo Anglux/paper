@@ -12,3 +12,6 @@ export const commonCode = (name:string) => {
   return get(`/public/common/enum/dict/${name}`);
 }
 
+export const rewrite = (params = {}) => {
+  return post(`/rewrite/rewrite`,params);
+}

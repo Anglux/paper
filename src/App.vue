@@ -12,17 +12,17 @@
     <div class="card">
       <div class="hederSelect">
         <strong>降重模式：</strong>
-        <span :class="{'currentSelect':selectIndex == index}" v-show="!item.hidden" v-for="(item,index) in selectArr.list" :key="index" @click="updateCurrent(index)">{{ item.value }}</span>
+        <span :class="{'currentSelect':selectIndex == index}" v-show="!item.hidden" v-for="(item,index) in selectArr" :key="index" @click="updateCurrent(index)">{{ item.value }}</span>
       </div>
       <div class="rowBox">
         <div class="row">
           <label for="">请输入需要降重的文字</label>
-          <textarea maxlength="4000" v-model="count" placeholder=""></textarea>
-          <span>{{ count.length }}/4000字</span>
+          <textarea maxlength="4000" v-model="rewriteText" placeholder=""></textarea>
+          <span>{{ rewriteText.length }}/4000字</span>
         </div>
         <div class="row">
           <label for="">智能降重处理结果</label>
-          <textarea placeholder=""></textarea>
+          <textarea v-model="rewriteDeWeigin" placeholder=""></textarea>
         </div>
       </div>
       <div class="rowButton">
@@ -31,7 +31,7 @@
       </div>
     </div>
     <div class="card">
-      <div class="cardHeder">
+      <div class="cardHeader">
         <span>使用方法</span>
       </div>
       <div class="cardBody">
@@ -55,7 +55,7 @@ import { defineComponent, reactive, ref, onMounted } from 'vue';
 import Headers from './components/Headers.vue'
 import Login from './components/Login.vue'
 import { userStore } from "./store/app";
-import { commonCode } from '../services/app'
+import { commonCode, rewrite } from '../services/app'
 export default defineComponent({
   name: 'App',
   components:{
@@ -63,22 +63,22 @@ export default defineComponent({
     Headers,
   },
   setup(){
-    const count = ref('')
     const store = userStore();
-    const selectArr = reactive({
-      list:[]
-    })
-
+    const rewriteText = ref('');
+    const rewriteDeWeigin = ref('');
+    const selectArr = reactive <any> ([])
     const isLogin = ref(false)
     const selectIndex = ref(0)
     // 方法
-    const updateCount = () => {
-      console.log(count.value.length);
+    const updateRewriteText = () => {
+      console.log(rewriteText.value.length);
     }
 
     const onReset = () => {
-      count.value = ''
+      rewriteText.value = ''
+      rewriteDeWeigin.value = ''
     }
+
     const updateCurrent = (e: any) => {
       selectIndex.value = e
     }
@@ -87,29 +87,35 @@ export default defineComponent({
       isLogin.value = !isLogin.value
     })
 
-    const onSubimt = (()=>{
+    const onSubimt = (async ()=>{
       if (!store.userInfo){
-        onLogin()
+        return onLogin()
       }
+      const res: any = await rewrite({
+        text:rewriteText.value, 
+        level:1
+      });
+      console.log('res :>> ', res);
     })
 
     onMounted(async ()=>{
       const res: any = await commonCode('TextRewriteLevelEnum');
       // console.log('res :>> ', res.data);
       if (res.code == 200){
-        selectArr.list = res.data
+        selectArr.push(...res.data)
       }
     })
 
     return{
-      count,
+      rewriteText,
+      rewriteDeWeigin,
       isLogin,
       selectArr,
       selectIndex,
       onReset,
       onLogin,
       onSubimt,
-      updateCount,
+      updateRewriteText,
       updateCurrent
     }
   }

@@ -4,7 +4,7 @@
       <div></div>
       <div class="homeHeaderInfo">
         <div v-if="store.userInfo?.token" class="userInfo">
-          <span>{{ store.userInfo?.userName }}</span>
+          <span>你好{{ store.userInfo?.userName }}</span>
           <span @click="onQuit">退出</span>
         </div>
         <div v-else class="homeHeaderBtn">
@@ -33,7 +33,7 @@ export default defineComponent({
     const onQuit = () => {
       localStorage.removeItem('userInfo')
       store.$reset()
-    }
+    }        
     return{
       store,
       onQuit
